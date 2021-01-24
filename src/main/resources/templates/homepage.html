@@ -1,0 +1,373 @@
+<!DOCTYPE html >
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Inventory Management System</title>
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/angular.min.js"
+	th:src="@{/angular.min.js}"></script>
+<script type="text/javascript" src="/static/app/app.module.js"
+	th:src="@{/app/app.module.js}"></script>
+<script type="text/javascript" src="/static/app/products.controller.js"
+	th:src="@{/app/products.controller.js}"></script>
+<link href="style1.css" rel="stylesheet" />
+<link rel="stylesheet" href="login.css">
+</head>
+	
+<body ng-app="app" ng-controller=" ProductsController as m" >
+<div #child class="modal fade" id="login" role="dialog" ng-if="m.show1">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="pane">
+				<img src="logo.png" />
+				<div class="login">
+					<h1 style="margin-left: 60px">Login</h1>
+					<br /> <label for="email"><b>Username</b></label> <input ng-model="username"
+						type="text" style="margin-right: 10px"
+						placeholder="Enter username" name="email" required> <br />
+					<br /> <label for="psw"><b>Password</b></label> <input ng-model="password"
+						type="password" placeholder="Enter Password" name="psw" required>
+					<br /> <br />
+					<button  style="margin-left: 80px" type="button" class="btn" ng-click="m.auth(username,password)">Login</button>
+					<div ng-if="m.authStatus==1;"><a href="javascript:close();">Login Success.Continue</a></div> 
+					<div ng-if="m.authStatus==0"><p>Login Failed</p></div>
+				</div>
+			</div>
+		</div>
+	</div>
+<div class="homepage" id="homepage">
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button id="startbutton" type="button"
+					class="navbar-toggle collapsed" data-toggle="collapse"
+					data-target="#navbar-collapse-main" />
+				<span class="sr-only">Toggle Navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Inventory Management System</a>
+			</div>
+
+			<div class="collapse navbar-collapse" id="navbar-collapse-main">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a class="active" href="#About">About</a></li>
+					<li><a class="active" href="#upload">Upload</a></li>
+					<li><a class="active" href="#show">Show</a></li>
+					<li><a class="active" href="#update">Modify</a></li>
+					<li><a class="active" href="#search">Search</a></li>
+					<li><a class="active" href="#Contact">Contact Us</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div id="home">
+		<div class="landing-text">
+			<h1 style="color: #FFF">Inventory Management System</h1>
+			<h3>One stop for all your Inventory</h3>
+			<a href="#About" class="btn btn-success btn-lg">Get Started</a>
+		</div>
+	</div>
+
+	<div id="About" class="padding">
+		<div class="container">
+			<div class="col-sm-3">
+				<img src="ims.png" />
+			</div>
+			<div class="col-sm-9">
+				<h2>About IMS</h2>
+				<p class="lead">IMS is single page website which is built using
+					html,css,bootstrap,angularjs,javascript and springboot. It has the
+					following functionalities like Show all inventory,search
+					inventory,update records and delete records.Data is stored in
+					My-sql.</p>
+			</div>
+		</div>
+	</div>
+
+	<div id="info">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+					<h4>Built with Spring-Boot</h4>
+					<p>Spring Boot is an open source Java-based framework used to
+						create a micro Service. It is developed by Pivotal Team and is
+						used to build stand-alone and production ready spring
+						applications.</p>
+				</div>
+
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+					<img src="spring-boot.png" class="img-responsive"></img>
+				</div>
+
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+					<h4>My-Sql as database</h4>
+					<p>MySQL is an open-source relational database management
+						system. Its name is a combination of "My", the name of co-founder
+						Michael Widenius's daughter, and "SQL", the abbreviation for
+						Structured Query Language.</p>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"></div>
+				<img src="mysql.png" class="img-responsive"></img>
+			</div>
+			<br />
+		</div>
+
+
+		<div id="upload">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<h3>
+							<strong>Upload CSV File</strong>
+						</h3>
+						<p>Current Implementation support only csv file.</p>
+						<br />
+						<form id="uploadform" method="POST" enctype="multipart/form-data">
+							Select a file: <input type="file" name="file" accept=".csv"
+								multiple><br> <input class="btn btn-success"
+								type="submit" value="Upload" id="btnSubmit" />
+						</form>
+						<br />
+						<div id="uploadsuccess" class="alert alert-success" role="alert">File
+							uploaded successfully</div>
+						<div id="uploadfailure" class="alert alert-danger" role="alert">File
+							upload failed</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="show">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<h3>
+						<strong>Show Inventory</strong>
+					</h3>
+					<p>Display complete inventory</p>
+					<select ng-model="selectedfield" style="width: 175px; height: 26px;"
+						ng-options="x.field for x in options">
+						<option value="">-Select Parameter- </option>
+					</select>
+					<input type="text"
+						ng-model="searchparameter" placeholder="Enter Value" />
+
+					<div class="btn-group" role="group">
+						<button
+							ng-click="m.getbyParam(selectedfield.field,searchparameter);show = !show "
+							type="button" class="btn btn-success btn-md">Fetch By
+							Parameter</button>
+						<button ng-click="m.getAll();show = !show " type="button"
+							class="btn btn-success btn-md">Fetch All</button>
+					</div>
+
+					<!-- Display products in a table -->
+					<div id="productTable" ng-show="show;">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Product Id</th>
+									<th>Product</th>
+									<th>Model</th>
+									<th>Manufacture</th>
+									<th>Type Code</th>
+									<th>Location Code</th>
+									<th>Msrp</th>
+									<th>Unit Cost</th>
+									<th>Discount Rate</th>
+									<th>stock_qty</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="product in m.products">
+									<td>{{product.product_id}}</td>
+									<td>{{product.product}}</td>
+									<td>{{product.model}}</td>
+									<td>{{product.manufacture}}</td>
+									<td>{{product.type_code}}</td>
+									<td>{{product.location_code}}</td>
+									<td>{{product.msrp}}</td>
+									<td>{{product.unit_cost}}</td>
+									<td>{{product.discount_rate}}</td>
+									<td>{{product.stock_qty}}</td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+					<br />
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="update">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<h3>
+						<strong>Modify Inventory</strong>
+					</h3>
+					<p>Allows to update or delete product in inventory</p>
+					<br />
+					<div ng-class="updateproduct">
+						<h4>Update Inventory</h4>
+						<input type="text" ng-model="productid"
+							placeholder="Enter product id" /><br />
+						<br />
+						 <select ng-model="selectedfield2" style="width: 175px; height: 26px;"
+							ng-options="x.field for x in options2">
+							<option value="">-Select Parameter- </option>
+							</select> 
+							<input
+							type="text" ng-model="newvalue" placeholder="Enter new value" />
+
+						<button type="button"
+							ng-click="m.updateProduct(selectedfield2.field,newvalue,productid)"
+							class="btn btn-success btn-md" ng-model="show1">Update</button>
+						<br />
+						<br />
+						<div ng-if="m.updatestatus1==1" class="alert alert-success"
+							role="alert">Product successfully updated</div>
+						<div ng-if="m.updatestatus1==0" class="alert alert-danger"
+							role="alert">Update failed</div>
+					</div>
+
+					<div ng-class="deletproduct">
+						<h4>Delete Inventory</h4>
+						<input type="text" ng-model="deleteid"
+							placeholder="Enter product id" />
+						<button type="button" ng-click="m.deleteProduct(deleteid)"
+							class="btn btn-success btn-md">Delete</button>
+						<br />
+						<br />
+						<div ng-if="m.deletestatus==1" class="alert alert-success"
+							role="alert">Product successfully deleted</div>
+						<div ng-if="m.deletestatus==0" class="alert alert-danger"
+							role="alert">Product does not exist</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="search">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<h3>
+						<strong>Search Inventory</strong>
+					</h3>
+					<p>Allows to search product in inventory</p>
+					<select ng-model="selectedfield1"
+						ng-options="x.field for x in options1"></select> <input
+						type="text" ng-model="searchparameter1" placeholder="Enter Value" />
+
+					<div class="btn-group" role="group">
+						<button
+							ng-click="m.getbyParam(selectedfield1.field,searchparameter1);show1 = !show1 "
+							type="button" class="btn btn-success btn-md">Search By
+							Parameter</button>
+					</div>
+
+					<!-- Display products in a table -->
+					<div id="productTable1" ng-show="show1">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Product Id</th>
+									<th>Product</th>
+									<th>Model</th>
+									<th>Manufacture</th>
+									<th>Type Code</th>
+									<th>Location Code</th>
+									<th>Msrp</th>
+									<th>Unit Cost</th>
+									<th>Discount Rate</th>
+									<th>stock_qty</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="product in m.products">
+									<td>{{product.product_id}}</td>
+									<td>{{product.product}}</td>
+									<td>{{product.model}}</td>
+									<td>{{product.manufacture}}</td>
+									<td>{{product.type_code}}</td>
+									<td>{{product.location_code}}</td>
+									<td>{{product.msrp}}</td>
+									<td>{{product.unit_cost}}</td>
+									<td>{{product.discount_rate}}</td>
+									<td>{{product.stock_qty}}</td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+					<br /> <br />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="Contact">
+		<div class="container">
+			<h3>
+				<strong>Contact US</strong>
+			</h3>
+			<div class="panel panel-info">
+				<input ng-model="inpname" type="text" class="form-control"
+					placeholder="First name" required /> <br /> <input
+					ng-model="inpemail" type="text" class="form-control"
+					placeholder="Email Id" required /> <br /> <input ng-model="query"
+					type="text" class="form-control" placeholder="Subject" required />
+				<br />
+				<textarea ng-model="inpmessage" class="form-control"
+					placeholder="write a message..." rows="5" required></textarea>
+
+				<button type="button" class="btn btn-info" style="margin:20px;"
+					ng-click="m.sendEmail(inpmessage,inpname,inpemail,query)" required>Send
+					Email</button>
+				<div ng-if="m.emailStatus==1" class="alert alert-success"
+					role="alert">Email Sent</div>
+				<div ng-if="m.emailStatus==0" class="alert alert-danger"
+					role="alert">Email not sent</div>
+			</div>
+		</div>
+	</div>
+	<footer class="container-fluid text-center">
+		<div class="row">
+			<div class="col-sm-6">
+				<h3>Contact Us</h3>
+				<br>
+				<h4>Address:</h4>
+			</div>
+			<div class="col-sm-6">
+				<h3>Connect</h3>
+				<a href="#" class="fa fa-facebook"></a> <a href="#"
+					class="fa fa-twitter"></a> <a href="#" class="fa fa-google"></a> <a
+					href="#" class="fa fa-linkedin"></a> <a href="#"
+					class="fa fa-youtube"></a>
+			</div>
+
+		</div>
+		<p th:text="${#dates.format(datetime, 'dd MMM yyyy HH:mm')}"
+			class="text-muted">Page was rendered today.</p>
+	</footer>
+	</div>
+	<script type="text/javascript" src="/js/app.js"></script>
+</body>
+</head>
+</html>

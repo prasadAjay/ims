@@ -1,0 +1,18 @@
+.pane{
+width:810px;
+height:270px;
+position:relative;
+background:#FFFF;
+border-width:5px;  
+    border-style:solid;
+}
+.login{
+	position:absolute;
+	right:10px;
+	top:0px;
+}
+.modal
+{
+	margin-top:10%;
+	margin-right:20%;
+}

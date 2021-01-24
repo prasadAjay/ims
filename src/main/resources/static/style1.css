@@ -1,0 +1,121 @@
+html, body {
+	height: 100%;
+	width: 100%;
+	scroll-behavior: smooth;
+}
+.homepage{
+	height: 100%;
+	width: 100%;
+}
+.navbar {
+	background-color: #23415C;
+	padding: 0.5% 0;
+	font-size: 1.2em;
+}
+#uploadsuccess,#uploadfailure{
+	display:none;
+}
+.navbar-default .navbar-nav li a {
+	color: #D5D5D5;
+}
+
+.navbar-default .navbar-nav li a:hover, .navbar-default .navbar-nav li a .active
+	{
+	color: #FFFF;
+}
+
+.navbar-default .navbar-brand {
+	color: #FFFF;
+}
+
+#productTable {
+	height: 200px;
+	overflow: auto;
+}
+
+#productTable.open {
+	transition: height, 0.5s linear;
+}
+
+#productTable1 {
+	height: 200px;
+	overflow: auto;
+}
+
+#productTable.open {
+	transition: height, 0.5s linear;
+}
+
+#home {
+	background: url("background.jpg") no-repeat center center fixed;
+	display: table;
+	height: 100%;
+	position: relative;
+	width: 100%;
+	background-size: cover;
+}
+
+.landing-text {
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.landing-text h1 {
+	font-weight: 700;
+}
+
+.padding {
+	padding: 80px 0;
+}
+
+#img1 {
+	width: 100%;
+}
+
+#fixed {
+	background: url("background.jpg") no-repeat center center fixed;
+	display: table;
+	height: 10%;
+	position: relative;
+	width: 100%;
+	background-size: 100%;
+}
+
+footer {
+	width: 100%;
+	max-height: 20%;
+	background-color: #23415C;
+	padding: 5% 5% 10% 0;
+	color: #FFF;
+}
+
+.fa {
+	padding: 15px;
+	font-size: 25px;
+	color: #FFFF;
+}
+
+.fa:hover {
+	color: #D5D5D5;
+	text-decoration: none;
+}
+
+.icon {
+	max-width: 200px;
+	max-height: 100px;
+}
+
+@media ( max-width :768px) {
+	.landing-text h1 {
+		font-size: 300%;
+	}
+	.fa {
+		font-size: 20px;
+		padding: 10px;
+	}
+	.icon {
+		padding-top: 5%;
+		max-width: 100px;
+	}
+}
